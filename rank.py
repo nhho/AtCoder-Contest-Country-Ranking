@@ -2,6 +2,7 @@
 
 import json
 import urllib2
+from unidecode import unidecode
 
 CONTEST_CODE = raw_input('Please enter a contest code (e.g. agc017): ')
 COUNTRY_CODE = raw_input('Please enter a country code (e.g. BY, HK): ')
@@ -22,7 +23,7 @@ for i in range(0, len(HTML)):
                 for k in j['tasks']:
                     if 'score' in k and k['score'] > 0:
                         solved += 1
-                data.append((str(j['rank']), j['user_name'], j['user_screen_name'], \
+                data.append((str(j['rank']), unidecode(j['user_name']), j['user_screen_name'], \
 				             str(j['rating']), '%d / %d' % (solved, len(j['tasks']))))
         for j in data:
             for k in range(5):
