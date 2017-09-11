@@ -6,21 +6,20 @@ import urllib2
 from unidecode import unidecode
 
 
-CONTEST_CODE = raw_input('Please enter a contest code (e.g. agc017): ')
-COUNTRY_CODE = raw_input('Please enter a country code (e.g. BY, HK): ')
-LINK = 'http://' + CONTEST_CODE + '.contest.atcoder.jp/standings'
-HTML = urllib2.urlopen(urllib2.Request(LINK)).read().split('\n')
+contest_code = raw_input('Please enter a contest code (e.g. agc017): ')
+country_code = raw_input('Please enter a country code (e.g. BY, HK): ')
+link = 'http://' + contest_code + '.contest.atcoder.jp/standings'
+html = urllib2.urlopen(urllib2.Request(link)).read().split('\n')
 
-
-for i in range(0, len(HTML)):
-    if 'ATCODER.standings' in HTML[i]:
-        start = HTML[i + 2].index('[')
-        end = HTML[i + 2].rindex(']')
-        js = json.loads(HTML[i + 2][start:end + 1])
+for i in range(0, len(html)):
+    if 'ATCODER.standings' in html[i]:
+        start = html[i + 2].index('[')
+        end = html[i + 2].rindex(']')
+        js = json.loads(html[i + 2][start:end + 1])
         data = [('rank', 'user', 'handle', 'rating', 'solved')]
         leng = [0, 0, 0, 0, 0]
         for j in js:
-            if j['country'] == COUNTRY_CODE:
+            if j['country'] == country_code:
                 solved = 0
                 for k in j['tasks']:
                     if 'score' in k and k['score'] > 0:
